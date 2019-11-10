@@ -23,7 +23,7 @@ volatile int volumeMemory16us = 0;
 volatile int soundChataTimer = 0;
 
 //! 割り込み用タイマ変数。単位：us。
-volatile int interraptMicTimer = MIC_TIMER_DT;
+volatile int interraptMicTimer = MIC_TIMER_PERIOD;
 
 //! 集音された回数
 volatile int clapCounts = 0;
@@ -35,7 +35,6 @@ volatile int clapCounts = 0;
 /**
  * @fn
  * @brief 現在の音量を取得する
- * @param なし
  * @return 0~1の範囲で判定した現在の音の大きさ
  * @detail 現在の音量を取得する。0~1の範囲で判定した現在の音の大きさが返却される。
  */
@@ -46,8 +45,6 @@ float getVolume() {
 /**
  * @fn
  * @brief 音量取得結果の更新
- * @param なし
- * @return なし
  * @detail 1us毎の割り込み内で呼び出されることを前提とした音量記録を更新する関数
  */
 void updateVolumeMemory() {
@@ -61,19 +58,12 @@ void updateVolumeMemory() {
 
 /**
  * @fn
- * @brief 集音検知する関数
- * @param なし
- * @return 集音状態と判定された場合のみtrue
+ * @brief 音を検知する関数
+ * @return 音検知と判定された場合true
  * @detail 集音状態であるか判定し、結果を返却する.
  *         条件1：16usの間で過半数の期間の音量が閾値を超えていること
- *         条件2:集音チャタリング用タイマ変数が0であること
  */
 bool detectedSound() {
-  //チャタリング防止期間中は即false
-  if (soundChataTimer > 0) {
-    return false;
-  }
-
   int counts = count16bitVal(volumeMemory16us);
   if (counts >= 8) {
     return true;
@@ -84,8 +74,7 @@ bool detectedSound() {
 /**
  * @fn
  * @brief 集音実施可能かチェックする関数
- * @param なし
- * @return bool　集音実施条件を満たす場合true
+ * @return 集音実施条件を満たす場合true
  * @detail 集音実施条件：集音チャタリング用の変数が0であること
  */
 bool isSoundCollectable() {
@@ -97,9 +86,7 @@ bool isSoundCollectable() {
 
 /**
  * @fn
- * @brief 集音状態をリセットする関数
- * @param なし
- * @return なし
+ * @brief 集音状態をリセットする
  */
 void clearSoundState() {
   volumeMemory16us = 0;
@@ -108,8 +95,6 @@ void clearSoundState() {
 /**
  * @fn
  * @brief 集音回数をリセットする関数
- * @param なし
- * @return なし
  */
 void clearClapCounts() {
   clapCounts = 0;
@@ -118,8 +103,6 @@ void clearClapCounts() {
 /**
  * @fn
  * @brief 集音回数を取得する関数
- * @param なし
- * @return なし
  */
 int getClapCounts() {
   return clapCounts;
@@ -128,8 +111,6 @@ int getClapCounts() {
 /**
  * @fn
  * @brief 集音チャタリング用タイマの変数が正数の場合デクリメントする
- * @param なし
- * @return なし
  */
 void decrementChataTimer() {
   if (soundChataTimer > 0) {
@@ -140,8 +121,6 @@ void decrementChataTimer() {
 /**
  * @fn
  * @brief 割り込み用タイマ変数が正数の場合デクリメントする
- * @param なし
- * @return なし
  */
 void decrementInterraptMicTimer() {
   if (interraptMicTimer > 0) {
@@ -152,18 +131,14 @@ void decrementInterraptMicTimer() {
 /**
  * @fn
  * @brief 割り込み用タイマ変数をリセットする
- * @param なし
- * @return なし
  */
 void resetInterraptMicTimer() {
-  interraptMicTimer = MIC_TIMER_DT;
+  interraptMicTimer = MIC_TIMER_PERIOD;
 }
 
 /**
  * @fn
  * @brief 割り込みタイマ関連処理
- * @param なし
- * @return 　なし
  * @detail 割り込み関数内で単位時間ごとに実行されることを想定したタイマ関連処理
  */
 void micInterruptFunc() {

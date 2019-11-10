@@ -33,9 +33,9 @@
 #define MIC_CHATA_TIME (50)
 
 /** @def
- * マイク用のタイマ集計単位時間（ｕｓ）
+ * マイク用のタイマ集計単位周期時間。単位：ｕｓ
  */
-#define MIC_TIMER_DT (1000)
+#define MIC_TIMER_PERIOD (1000)
 
 /** @def
  * BASE_VOLUMEの2乗

@@ -19,8 +19,7 @@ volatile long secondTimer = 0;
 /**
  * @fn
  * @brief 引数の秒数分待つ関数(小数点を使用可能)
- * @param sec 秒数
- * @return なし
+ * @param sec 待機したい秒数
  * @detail 引数の秒数分待つ関数(小数点を使用可能)
  */
 void wait(float sec) {
@@ -32,10 +31,9 @@ void wait(float sec) {
 
 /**
  * @fn
- * @brief 16bitｊの変数の立っているビットをカウントする
- * @param int anyInt
+ * @brief 16bit変数の中で立っているビット数をカウントする
+ * @param anyInt　任意のint型変数
  * @return int 立っているビット数
- * @detail 16bitｊの変数の立っているビットをカウントする
  */
 int count16bitVal(int anyInt) {
   anyInt = (anyInt & 0x5555) + (anyInt >> 1 & 0x5555);
