@@ -48,8 +48,8 @@ float getVolume() {
  * @detail 1us毎の割り込み内で呼び出されることを前提とした音量記録を更新する関数
  */
 void updateVolumeMemory() {
-  float volume = getVolume();
-  if (volume * volume > BASE_VOLUME_SQUARE) {
+  float nowVolume = getVolume() - 0.5;
+  if (nowVolume * nowVolume > THRESHOLD_VOLUME) {
     volumeMemory16us = (volumeMemory16us << 1) + 1;
   } else {
     volumeMemory16us = volumeMemory16us << 1;

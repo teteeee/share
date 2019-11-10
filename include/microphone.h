@@ -18,7 +18,7 @@
  * AD変換した電圧値に対して用いる
  * 0.5を平常時の音とし0~1の範囲で記載する
  */
-#define BASE_VOLUME (0.7)
+#define REF_VOLUME (0.7)
 
 /** @def
  * AD変換値に乗ずることで
@@ -38,9 +38,9 @@
 #define MIC_TIMER_PERIOD (1000)
 
 /** @def
- * BASE_VOLUMEの2乗
+ * REF_VOLUMEと無音(=0.5)の差の2乗
  */
-#define BASE_VOLUME_SQUARE (BASE_VOLUME*BASE_VOLUME)
+#define THRESHOLD_VOLUME ((REF_VOLUME - 0.5)*(REF_VOLUME - 0.5))
 
 //------------------------------------------------
 //  グローバル変数宣言
